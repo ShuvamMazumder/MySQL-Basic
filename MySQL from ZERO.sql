@@ -73,6 +73,131 @@ values (100,'hamburger',3.99),
 		(101,'fries',19),
 		(102,'cola',25);
 
+select * from geo;
+
+update geo
+set region = 'America'
+where GeoID = 'G2';
+
+delete from geo
+where GeoID = 'G2';
+
+select * from people;
+select team,location from people;
+select distinct location from people;
+
+select salesperson,location from people
+where location = 'Hyderabad';
+
+select team,salesperson,location from people
+where location = 'Hyderabad' and team = 'Yummies'
+order by Salesperson asc;
+
+select * from customer;
+select * from payment;
+
+select upper(first_name),length(first_name),substring(first_name,2,4),now() from customer;
+
+select concat(first_name,' ',last_name) from customer;
+
+select replace(first_name,'Mary', 'Mari') from customer;
+
+select count(customer_id) from customer;
+select count(*) from customer;
+
+select sum(amount) from payment;
+select max(amount) from payment;
+select min(amount) from payment;
+select avg(amount) from payment;
+select round(avg(amount),2) from payment;
+
+select mode, sum(amount) as total
+from payment
+group by mode
+order by total desc;
+
+select mode, count(amount) as total
+from payment
+group by mode
+having count(amount) >=2 and count(amount) <4 
+order by total desc
+limit 2;
+
+show TIMEZONE;
+select now();
+select timeofday();
+select current_date();
+select current_time();
+
+
+select extract(day from payment_date) as month, payment_date from payment;
+
+select c.first_name,p.mode
+from customer as c
+inner join payment as p
+on c.customer_id = p.customer_id;
+
+
+select *
+from payment as p
+left join customer as c
+on p.customer_id = c.customer_id;
+
+select first_name
+from customer
+union 
+select first_name
+from payment;
+
+select avg(amount) from payment;
+
+select *
+from payment
+where amount > (select avg(amount) from payment);
+
+
+select customer_id,amount,mode
+from payment
+where customer_id in (select customer_id from customer);
+
+select customer_id,amount
+from payment
+where amount > 60;
+
+select first_name,last_name
+from customer c
+where exists (	select *
+				from payment p
+				where p.customer_id = c.customer_id
+                and amount > 60);
+
+
+select customer_id,amount,
+case 
+	when amount > 60 then 'expensive'
+	when amount <=60 then 'moderate'
+    else 'free'
+end as product_status
+from payment;
+
+select customer_id,
+case amount
+	when 50 then 'prime user'
+	when 30 then 'plus user'
+    else 'regular user'
+end as customer_status
+from payment;
+
+
+
+
+
+
+
+
+
+
+
 
 
 
